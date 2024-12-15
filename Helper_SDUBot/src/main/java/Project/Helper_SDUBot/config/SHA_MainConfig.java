@@ -9,10 +9,10 @@ import org.springframework.context.annotation.PropertySource;
 @Data
 @PropertySource("application.properties")
 public class SHA_MainConfig {
-
+    //Values for configuration
     @Value("${bot.name}")
-    String botName;
+    private String botName;
 
     @Value("${bot.key}")
-    String token;
+    private String token;
 }

@@ -15,11 +15,12 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 public class BotInitializer {
 
     @Autowired
-    SHA_MainService service;
+    private SHA_MainService service; //Getting service configuration
 
+    //Function initializing the bot
     @EventListener({ContextRefreshedEvent.class})
     public void init() throws TelegramApiException {
-
+        //Getting bot session API
         TelegramBotsApi telegramBotsApi= new TelegramBotsApi(DefaultBotSession.class);
 
         try {
