@@ -48,11 +48,19 @@ public class SHA_MainService extends TelegramLongPollingBot {
             String messageText = update.getMessage().getText(); //Getting users text
             long chatId = update.getMessage().getChatId(); //Getting main chatId
 
-            //Checking what user has written
-            if(messageText.equals("/start")) {
+            //If language is not chosen automatically prompts user to chose one
+             if(messageText.equals("/start")) {
                 startCommand(chatId, update.getMessage().getChat().getFirstName()); //A command prompting user to choose a language
                 sendReplyKeyboardMarkup(chatId); //Creating a choosing keyboard
-            } else if(messageText.equals("Cancel")) {
+            } else if(messageText.equals("English") || messageText.equals("Russian") || messageText.equals("Kazakh")) {
+                 this.language = messageText; //Changes or sets language
+                 qanda = new QandA(this.language); //Getting JSON file broken down into Map for all questions and answers
+                 QandAs = qanda.getQandAs(); //Getting all of the questions and answers into local Map
+                 sendMessage(chatId, "You selected " + this.language); //Sending which language the user has chosen
+             } else if(this.language.isBlank()) {
+                 sendMessage(chatId, "First choose a language: ");
+                 sendReplyKeyboardMarkup(chatId); //creates choosing poll for languages
+             } else if(messageText.equals("Cancel")) {
                 userAskMode.clear(); //clearing state of user ask mode
                 userAskMode.put(String.valueOf(chatId), false); //putting information that user is no longer in ask mode
                 clearReplyKeyboard(chatId, "Ask is canceled"); //When in ask mode, "cancel" deactivates it
@@ -65,28 +73,15 @@ public class SHA_MainService extends TelegramLongPollingBot {
                 userAskMode.put(String.valueOf(chatId), true); //Activates user ask mode
                 askCommand(chatId); //Initialize everything needed for ask mode
             } else if(messageText.equals("/Show_All_Questions")) {
-                //Checks whether if user has chosen a language
-                if(!this.language.isBlank()) {
-                    //print out all of the questions and answers
-                    QandAs.forEach((k, v)->{
-                        sendMessage(chatId, k + " : " + v);
-                    });
-                }
-                //If language is not chosen automatically prompts user to chose one
-                else {
-                    sendMessage(chatId, "First choose a language: ");
-                    sendReplyKeyboardMarkup(chatId); //creates choosing poll for languages
-                }
-            } else if(messageText.equals("English") || messageText.equals("Russian")) {
-                this.language = messageText; //Changes or sets language
-                qanda = new QandA(this.language); //Getting JSON file broken down into Map for all questions and answers
-                QandAs = qanda.getQandAs(); //Getting all of the questions and answers into local Map
-                sendMessage(chatId, "You selected " + this.language); //Sending which language the user has chosen
-            } else if(messageText.equals("Kazakh")) {
-                //TODO:Finish for Kazakh language
-                this.language = messageText;
-                sendMessage(chatId, "You selected " + this.language);
-            } else {
+                //Print out all the questions and answers
+                QandAs.forEach((k, v)-> {
+                    sendMessage(chatId, k + " : " + v);
+                });
+            } else if(messageText.equals("/moodle_sdu")){
+                sendMessage(chatId, "https://moodle.sdu.edu.kz/login/index.php");
+            } else if(messageText.equals("/my_sdu")) {
+                 sendMessage(chatId, "https://my.sdu.edu.kz/index.php");
+             }else {
                 sendMessage(chatId, "I don't know this command:("); //If user tries to use non existing command
             }
         }

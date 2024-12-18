@@ -45,6 +45,18 @@ public class QandA {
                     log.error("An error: {}", e.getMessage());
                 }
                 break;
+            case "Kazakh":
+                try {
+                    ObjectMapper mapper = new ObjectMapper();
+                    InputStream inputStream = getClass().getClassLoader().getResourceAsStream("Kazakh.json");
+                    if (inputStream == null) {
+                        throw new RuntimeException("Kazakh.json file not found in resources");
+                    }
+                    QandAs = mapper.readValue(inputStream, Map.class);
+                } catch (IOException e) {
+                    log.error("An error: {}", e.getMessage());
+                }
+                break;
             default:
                 QandAs = new HashMap<>();
                 break;

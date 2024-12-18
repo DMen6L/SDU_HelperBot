@@ -21,11 +21,11 @@ public class BotAnswer {
         QandAs.forEach((k, v) ->{
             //Changing the variables if percentage exceeds the past ones
             if(match.get() < theMatch(k.toLowerCase(), question.toLowerCase())) {
-                match.set(theMatch(k.toLowerCase(), question.toLowerCase()) * 100);
+                match.set(theMatch(k.toLowerCase(), question.toLowerCase()));
                 answer.set(v.toString());
             }
         });
-        if(answer.get().isBlank() || match.get() < 60) {
+        if(answer.get().isBlank() || match.get() * 100 < 60) {
             return "I didn't find an answer";
         }
         return answer.get().toString();
@@ -36,12 +36,26 @@ public class BotAnswer {
         float theMatch = 0; //The match percentage
         List<String> list1 = Arrays.stream(question_QandAs.split("\\s+")).toList(); //Breaking the questions down by spaces
         List<String> list2 = Arrays.stream(seeked_Question.split("\\s+")).toList();
+        int n = 0, m = 0;
+
+        for(int i = 0; i < list1.size(); i++) {
+            for(int j = 0; j < list1.get(i).length(); j++) {
+                n++;
+            }
+        }
+        for(int i = 0; i < list2.size(); i++) {
+            for(int j = 0; j < list2.get(i).length(); j++) {
+                m++;
+            }
+        }
+
+        int mx = Math.max(n, m);
 
         int i = 0; //Going through question words
 
         while(i < list1.size() && i < list2.size()) {
             int j = 0; //Going through characters
-            int mx = Math.max(list1.get(i).length(), list2.get(i).length()); //Max length
+            //Max length
             while(j < list1.get(i).length() && j < list2.get(i).length()) {
                 if(list1.get(i).charAt(j) == list2.get(i).charAt(j)) {
                     theMatch += 1.00 / mx;

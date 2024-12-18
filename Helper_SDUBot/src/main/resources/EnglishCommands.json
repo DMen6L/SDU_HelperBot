@@ -1,5 +1,8 @@
 {
   "/start": "command starting the bot",
   "/help": "to show all the commands",
+  "/ask": "activates ask mode, since activation you can ask question until pressing 'Cancel' is pressed or written",
+  "/moodle_sdu": "gives a link to sdu moodle page",
+  "/my_sdu": "gives a link to my sdu page",
   "/Show_All_Questions": "Shows all questions"
 }

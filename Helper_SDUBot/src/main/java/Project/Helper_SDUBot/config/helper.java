@@ -41,6 +41,16 @@ public class helper {
                     log.error("An error: {}", e.getMessage());
                 }
             case "Kazakh":
+                try {
+                    ObjectMapper mapper = new ObjectMapper();
+                    InputStream inputStream = getClass().getClassLoader().getResourceAsStream("KazakhCommands.json");
+                    if (inputStream == null) {
+                        throw new RuntimeException("KazakhCommands.json file not found in resources");
+                    }
+                    helps = mapper.readValue(inputStream, Map.class);
+                } catch (IOException e) {
+                    log.error("An error: {}", e.getMessage());
+                }
                 break;
         }
 
