@@ -1,0 +1,7 @@
+Project\Helper_SDUBot\config\QandA.class
+Project\Helper_SDUBot\config\helper.class
+Project\Helper_SDUBot\service\SHA_MainService.class
+Project\Helper_SDUBot\config\SHA_MainConfig.class
+Project\Helper_SDUBot\config\BotInitializer.class
+Project\Helper_SDUBot\config\BotAnswer.class
+Project\Helper_SDUBot\HelperSduBotApplication.class
